@@ -1,10 +1,10 @@
 <?php
 
-Route::get('/token', function () {
-	$token = auth()->user()->generateConfirmationToken();
-
-	dd($token);
-});
+//Route::get('/token', function () {
+//	$token = auth()->user()->generateConfirmationToken();
+//
+//	dd($token);
+//});
 
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
