@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\Auth\UserSignedUp;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -27,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -68,4 +70,20 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+	/**
+	 * The user has been registered.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  mixed  $user
+	 * @return mixed
+	 */
+	protected function registered(Request $request, $user)
+	{
+		$this->guard()->logout();
+
+		event(new UserSignedUp($user));
+
+		return redirect($this->redirectPath())->withSuccess('Please check yor email for activation of your account');
+	}
 }
