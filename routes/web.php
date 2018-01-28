@@ -1,14 +1,13 @@
 <?php
 
-//Route::get('/token', function () {
-//	$token = auth()->user()->generateConfirmationToken();
-//
-//	dd($token);
-//});
-
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/dashboard', 'DashboardController@index');
+
+
+Route::group(['middleware' => 'auth'], function(){
+	Route::get('/dashboard', 'DashboardController@index');
+});
+
 
 /**
  * Account
@@ -28,4 +27,8 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 	 */
 	Route::get('/password', 'Account\PasswordController@index')->name('password.index');
 	Route::post('/password', 'Account\PasswordController@store')->name('password.store');
+});
+
+Route::group(['prefix' => 'activation', 'as' => 'activation.'], function(){
+	Route::get('/{confirmation_token}', 'Auth\ActivationController@activate')->name('activate');
 });
