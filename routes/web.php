@@ -4,7 +4,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
 
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => 'auth'], function () {
 	Route::get('/dashboard', 'DashboardController@index');
 });
 
@@ -12,7 +12,7 @@ Route::group(['middleware' => 'auth'], function(){
 /**
  * Account
  */
-Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.'], function(){
+Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.'], function () {
 	Route::get('/', 'Account\AccountController@index')->name('index');
 
 	/**
@@ -29,6 +29,6 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 	Route::post('/password', 'Account\PasswordController@store')->name('password.store');
 });
 
-Route::group(['prefix' => 'activation', 'as' => 'activation.'], function(){
+Route::group(['prefix' => 'activation', 'as' => 'activation.', 'middleware' => ['guest', 'confirmation_token.expired:/']], function () {
 	Route::get('/{confirmation_token}', 'Auth\ActivationController@activate')->name('activate');
 });
