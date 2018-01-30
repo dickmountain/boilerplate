@@ -39,3 +39,11 @@ Route::group(['prefix' => 'activation', 'as' => 'activation.', 'middleware' => [
 	Route::get('/{confirmation_token}', 'Auth\ActivationController@activate')->name('activate');
 });
 
+/**
+ * Subscription
+ */
+Route::group(['prefix' => 'plans', 'as' => 'plans.'], function () {
+	Route::get('/', 'Subscription\PlanController@index')->name('index');
+	Route::get('/teams', 'Subscription\PlanTeamController@index')->name('teams.index');
+});
+
