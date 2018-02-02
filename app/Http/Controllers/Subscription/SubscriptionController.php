@@ -18,7 +18,12 @@ class SubscriptionController extends Controller
 
 	public function store(SubscriptionStoreRequest $request)
 	{
-		$request->user()->newSubscription('main', $request->plan)->create($request->token);
+		$subscription = $request->user()->newSubscription('main', $request->plan);
+		if ($request->has('coupon')) {
+			$subscription->withCoupon($request->coupon);
+		}
+
+		$subscription->create($request->token);
 
 		return redirect('/')->withSuccess('Thank you for becoming a subscriber.');
 	}
