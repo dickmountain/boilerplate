@@ -24,7 +24,9 @@
 
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{{ route('plans.index') }}">Plans</a></li>
+                @not_subscribed
+                    <li><a href="{{ route('plans.index') }}">Plans</a></li>
+                @endnot_subscribed
                 <!-- Authentication Links -->
                 @guest
                     <li><a href="{{ route('login') }}">Login</a></li>
