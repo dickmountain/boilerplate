@@ -4,7 +4,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'subscription.active']], function () {
 	Route::get('/dashboard', 'DashboardController@index');
 });
 
@@ -29,13 +29,36 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 	Route::post('/password', 'PasswordController@store')->name('password.store');
 
 	/**
-	 * Subscription
+	 * Subscription (Account)
 	 */
 	Route::group(['prefix' => 'subscription', 'namespace' => 'Subscription', 'as' => 'subscription.'], function () {
-		Route::get('/cancel', 'CancelController@index')->name('cancel.index');
-		Route::get('/card', 'CardController@index')->name('card.index');
-		Route::get('/change', 'ChangeController@index')->name('change.index');
-		Route::get('/resume', 'ResumeController@index')->name('resume.index');
+		/**
+		 * Cancel
+		 */
+		Route::group(['as' => 'cancel.', 'middleware' => ['subscription.notcancelled']], function () {
+			Route::get('/cancel', 'CancelController@index')->name('index');
+		});
+
+		/**
+		 * Card
+		 */
+		Route::group(['as' => 'card.', 'middleware' => ['subscription.notcancelled']], function () {
+			Route::get('/card', 'CardController@index')->name('index');
+		});
+
+		/**
+		 * Change
+		 */
+		Route::group(['as' => 'change.', 'middleware' => ['subscription.notcancelled']], function () {
+			Route::get('/change', 'ChangeController@index')->name('index');
+		});
+
+		/**
+		 * Resume
+		 */
+		Route::group(['as' => 'resume.', 'middleware' => ['subscription.cancelled']], function () {
+			Route::get('/resume', 'ResumeController@index')->name('index');
+		});
 	});
 });
 
@@ -50,9 +73,9 @@ Route::group(['prefix' => 'activation', 'as' => 'activation.', 'middleware' => [
 });
 
 /**
- * Plans
+ * Subscription Plans
  */
-Route::group(['prefix' => 'plans', 'as' => 'plans.'], function () {
+Route::group(['prefix' => 'plans', 'as' => 'plans.', 'middleware' => ['subscription.inactive']], function () {
 	Route::get('/', 'Subscription\PlanController@index')->name('index');
 	Route::get('/teams', 'Subscription\PlanTeamController@index')->name('teams.index');
 });
@@ -60,7 +83,7 @@ Route::group(['prefix' => 'plans', 'as' => 'plans.'], function () {
 /**
  * Subscription
  */
-Route::group(['prefix' => 'subscription', 'as' => 'subscription.', 'middleware' =>['auth.register']], function () {
+Route::group(['prefix' => 'subscription', 'as' => 'subscription.', 'middleware' =>['auth.register', 'subscription.inactive']], function () {
 	Route::get('/', 'Subscription\SubscriptionController@index')->name('index');
 	Route::post('/', 'Subscription\SubscriptionController@store')->name('store');
 });
