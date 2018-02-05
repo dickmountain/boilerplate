@@ -45,6 +45,7 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 		 */
 		Route::group(['as' => 'card.', 'middleware' => ['subscription.notcancelled']], function () {
 			Route::get('/card', 'CardController@index')->name('index');
+			Route::post('/card', 'CardController@store')->name('store');
 		});
 
 		/**
