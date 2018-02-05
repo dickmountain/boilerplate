@@ -37,6 +37,7 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 		 */
 		Route::group(['as' => 'cancel.', 'middleware' => ['subscription.notcancelled']], function () {
 			Route::get('/cancel', 'CancelController@index')->name('index');
+			Route::post('/cancel', 'CancelController@store')->name('store');
 		});
 
 		/**
@@ -58,6 +59,7 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 		 */
 		Route::group(['as' => 'resume.', 'middleware' => ['subscription.cancelled']], function () {
 			Route::get('/resume', 'ResumeController@index')->name('index');
+			Route::post('/resume', 'ResumeController@store')->name('store');
 		});
 	});
 });
