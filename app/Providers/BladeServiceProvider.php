@@ -29,6 +29,10 @@ class BladeServiceProvider extends ServiceProvider
 	    Blade::if('subscription_not_cancelled', function(){
 		    return auth()->user()->hasNotCancelled();
 	    });
+
+	    Blade::if('team_subscription', function(){
+		    return auth()->user()->hasTeamSubscription();
+	    });
     }
 
     /**

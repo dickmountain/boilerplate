@@ -62,6 +62,14 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 			Route::get('/resume', 'ResumeController@index')->name('index');
 			Route::post('/resume', 'ResumeController@store')->name('store');
 		});
+
+		/**
+		 * Team
+		 */
+		Route::group(['as' => 'team.', 'middleware' => ['subscription.team']], function () {
+			Route::get('/team', 'TeamController@index')->name('index');
+			Route::patch('/team', 'TeamController@update')->name('update');
+		});
 	});
 });
 
