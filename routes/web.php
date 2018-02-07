@@ -69,6 +69,8 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 		Route::group(['as' => 'team.', 'middleware' => ['subscription.team']], function () {
 			Route::get('/team', 'TeamController@index')->name('index');
 			Route::patch('/team', 'TeamController@update')->name('update');
+
+			Route::post('/team', 'TeamMemberController@store')->name('member.store');
 		});
 	});
 });

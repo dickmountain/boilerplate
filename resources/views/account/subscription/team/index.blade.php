@@ -8,7 +8,7 @@
                 {{ method_field('PATCH') }}
 
                 <div class="form-group{{$errors->has('name') ? ' has-error' : ''}}">
-                    <label for="name" class="control-label">Current password</label>
+                    <label for="name" class="control-label">Team name</label>
                     <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $team->name) }}">
 
                     @if ($errors->has('name'))
@@ -20,6 +20,51 @@
 
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @if ($team->users->count())
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Member</th>
+                            <th>Email</th>
+                            <th>Added</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($team->users as $user)
+                            <tr>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->pivot->created_at->toDateString() }}</td>
+                                <td><a href="" class="btn btn-danger">Delete</a></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p>No team members</p>
+            @endif
+
+                <form action="{{ route('account.subscription.team.member.store') }}" method="POST">
+                    {{ csrf_field() }}
+
+                    <div class="form-group{{$errors->has('email') ? ' has-error' : ''}}">
+                        <label for="email" class="control-label">Add a team member by email</label>
+                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}">
+
+                        @if ($errors->has('email'))
+                            <span class="help-block">
+                                {{ $errors->first('email') }}
+                            </span>
+                        @endif
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
         </div>
     </div>
 @endsection
