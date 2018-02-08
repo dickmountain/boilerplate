@@ -22,9 +22,11 @@ class TeamMemberController extends Controller
 		return back()->withSuccess('Team member added.');
     }
 
-	public function destroy()
+	public function destroy(User $user, Request $request)
 	{
+		$request->user()->team->users()->detach($user->id);
 
+		return back()->withSuccess('Team member was deleted.');
 	}
 
 	protected function teamLimitReached($request)

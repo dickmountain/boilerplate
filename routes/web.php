@@ -70,7 +70,8 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 			Route::get('/team', 'TeamController@index')->name('index');
 			Route::patch('/team', 'TeamController@update')->name('update');
 
-			Route::post('/team', 'TeamMemberController@store')->name('member.store');
+			Route::post('/team/member', 'TeamMemberController@store')->name('member.store');
+			Route::delete('/team/member/{user}', 'TeamMemberController@destroy')->name('member.destroy');
 		});
 	});
 });

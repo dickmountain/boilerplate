@@ -40,7 +40,12 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->pivot->created_at->toDateString() }}</td>
-                                <td><a href="" class="btn btn-danger">Delete</a></td>
+                                <td><a href="#" class="btn btn-danger"
+                                       onclick="
+                                            event.preventDefault();
+                                            document.getElementById('remove-{{ $user->id }}').submit();
+                                       ">Delete</a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -49,22 +54,30 @@
                 <p>No team members</p>
             @endif
 
-                <form action="{{ route('account.subscription.team.member.store') }}" method="POST">
+            @foreach ($team->users as $user)
+                <form id="remove-{{ $user->id }}" action="{{ route('account.subscription.team.member.destroy', $user) }}" method="POST" class="hidden">
                     {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
 
-                    <div class="form-group{{$errors->has('email') ? ' has-error' : ''}}">
-                        <label for="email" class="control-label">Add a team member by email</label>
-                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}">
-
-                        @if ($errors->has('email'))
-                            <span class="help-block">
-                                {{ $errors->first('email') }}
-                            </span>
-                        @endif
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Add</button>
                 </form>
+            @endforeach
+
+            <form action="{{ route('account.subscription.team.member.store') }}" method="POST">
+                {{ csrf_field() }}
+
+                <div class="form-group{{$errors->has('email') ? ' has-error' : ''}}">
+                    <label for="email" class="control-label">Add a team member by email</label>
+                    <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}">
+
+                    @if ($errors->has('email'))
+                        <span class="help-block">
+                            {{ $errors->first('email') }}
+                        </span>
+                    @endif
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
         </div>
     </div>
 @endsection
