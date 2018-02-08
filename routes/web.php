@@ -31,7 +31,7 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 	/**
 	 * Subscription (Account)
 	 */
-	Route::group(['prefix' => 'subscription', 'namespace' => 'Subscription', 'as' => 'subscription.'], function () {
+	Route::group(['prefix' => 'subscription', 'namespace' => 'Subscription', 'as' => 'subscription.', 'middleware' => ['subscription.owner']], function () {
 		/**
 		 * Cancel
 		 */

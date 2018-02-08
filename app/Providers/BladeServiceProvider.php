@@ -33,6 +33,10 @@ class BladeServiceProvider extends ServiceProvider
 	    Blade::if('team_subscription', function(){
 		    return auth()->user()->hasTeamSubscription();
 	    });
+
+	    Blade::if('not_piggyback_subscription', function(){
+		    return !auth()->user()->hasPiggybackSubscription();
+	    });
     }
 
     /**

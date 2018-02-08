@@ -68,6 +68,11 @@ class User extends Authenticatable
 		)->orderBy('subscriptions.created_at', 'desc');
 	}
 
+	public function teams()
+	{
+		return $this->belongsToMany(Team::class);
+	}
+
 	public function users()
 	{
 		return $this->belongsToMany(Team::class)->withTimestamps();
