@@ -12,10 +12,20 @@ class Plan extends Model
 		return $this->teams_enabled === true;
 	}
 
+	public function isNotForTeams()
+	{
+		return !$this->isForTeams();
+	}
+
     public function scopeActive(Builder $builder)
     {
     	return $builder->where('active', true);
     }
+
+	public function scopeExcept(Builder $builder, $planId)
+	{
+		return $builder->where('id', '!=', $planId);
+	}
 
 	public function scopeForUsers(Builder $builder)
 	{

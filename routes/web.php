@@ -53,6 +53,7 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 		 */
 		Route::group(['as' => 'change.', 'middleware' => ['subscription.notcancelled']], function () {
 			Route::get('/change', 'ChangeController@index')->name('index');
+			Route::post('/change', 'ChangeController@store')->name('store');
 		});
 
 		/**
