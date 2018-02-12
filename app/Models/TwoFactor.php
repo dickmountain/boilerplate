@@ -21,7 +21,7 @@ class TwoFactor extends Model
 
 	public function isVerified()
 	{
-		return $this->verified();
+		return $this->verified;
 	}
 
 	public function user()

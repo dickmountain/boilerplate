@@ -20,6 +20,7 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 	 */
 	Route::get('/twofactor', 'TwoFactorController@index')->name('twofactor.index');
 	Route::post('/twofactor', 'TwoFactorController@store')->name('twofactor.store');
+	Route::post('/twofactor/verify', 'TwoFactorController@verify')->name('twofactor.verify');
 
 	/**
 	 * Profile
