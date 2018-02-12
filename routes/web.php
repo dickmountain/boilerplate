@@ -16,6 +16,12 @@ Route::group(['prefix' => 'account', 'middleware' => ['auth'], 'as' => 'account.
 	Route::get('/', 'AccountController@index')->name('index');
 
 	/**
+	 * Two factor authentication
+	 */
+	Route::get('/twofactor', 'TwoFactorController@index')->name('twofactor.index');
+	Route::post('/twofactor', 'TwoFactorController@store')->name('twofactor.store');
+
+	/**
 	 * Profile
 	 */
 	Route::get('/profile', 'ProfileController@index')->name('profile.index');
