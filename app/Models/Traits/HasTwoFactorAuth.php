@@ -13,7 +13,7 @@ trait HasTwoFactorAuth
 	public function twoFactorPendingVerification()
 	{
 
-		if (!$this->twoFactor()) {
+		if (!$this->twoFactor) {
 			return false;
 		}
 

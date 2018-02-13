@@ -21,7 +21,7 @@ class Authy implements TwoFactor
 	{
 		try {
 			$response = $this->client->request(
-				'POST', 'http://api.authy.com/protected/json/users/new?api_key='.config('services.authy.secret'), [
+				'POST', 'https://api.authy.com/protected/json/users/new?api_key='.config('services.authy.secret'), [
 					'form_params' => [
 						'user' => $this->getTwoFactorRegDetails($user)
 					]
@@ -36,7 +36,19 @@ class Authy implements TwoFactor
 
 	public function validateToken(User $user, $token)
 	{
+		try {
+			$response = $this->client->request(
+				'GET', 'https://api.authy.com/protected/json/verify/'.$token.'/'.$user->twoFactor->identifier
+				.'?force=true&api_key='.config('services.authy.secret')
+			);
 
+		} catch (Exception $e) {
+			return false;
+		}
+
+		$response = json_decode($response->getBody());
+
+		return $response->token === 'is valid';
 	}
 
 	public function delete(User $user)

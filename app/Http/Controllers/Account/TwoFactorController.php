@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Requests\TwoFactor\TwoFactorStoreRequest;
+use App\Http\Requests\TwoFactor\TwoFactorVerifyRequest;
 use App\Models\Country;
 use App\TwoFactor\TwoFactor;
 use Illuminate\Http\Request;
@@ -35,8 +36,12 @@ class TwoFactorController extends Controller
 		return back();
 	}
 
-	public function verify()
+	public function verify(TwoFactorVerifyRequest $request)
 	{
+		$request->user()->twoFactor()->update([
+			'verified' => true
+		]);
 
+		return back();
 	}
 }
