@@ -44,4 +44,15 @@ class TwoFactorController extends Controller
 
 		return back();
 	}
+
+	public function destroy(Request $request, TwoFactor $twoFactor)
+	{
+		$user = $request->user();
+
+		if ($twoFactor->delete($user)) {
+			$user->twoFactor()->delete();
+		}
+
+		return back();
+	}
 }
