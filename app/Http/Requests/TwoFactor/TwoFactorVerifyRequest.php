@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\TwoFactor;
 
+use App\Models\User;
 use App\Rules\ValidTwoFactorToken;
 use App\TwoFactor\TwoFactor;
 use Illuminate\Foundation\Http\FormRequest;
@@ -32,10 +33,21 @@ class TwoFactorVerifyRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+    	if (session()->has('twofactor')) {
+		    $this->setUserResolver($this->userResolver());
+	    }
+
+    	return [
             'token' => [
             	'required', new ValidTwoFactorToken($this->user(), $this->twoFactor)
             ]
         ];
+    }
+
+    protected function userResolver()
+    {
+    	return function () {
+    		return User::find(session('twofactor')->user_id);
+	    };
     }
 }
