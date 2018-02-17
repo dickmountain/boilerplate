@@ -15,7 +15,7 @@
                                 <label for="token" class="col-md-4 control-label">Authentication token</label>
 
                                 <div class="col-md-6">
-                                    <input id="token" type="text" class="form-control" name="token">
+                                    <input id="token" type="text" class="form-control" name="token" autofocus>
 
                                     @if ($errors->has('token'))
                                         <span class="help-block">
