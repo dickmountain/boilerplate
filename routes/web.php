@@ -3,9 +3,12 @@
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'namespace' => 'Admin'], function () {
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], function () {
 	Route::get('/impersonate', 'ImpersonateController@index');
+	Route::post('/impersonate', 'ImpersonateController@start')->name('impersonate.start');
 });
+
+Route::delete('/impersonate', 'Admin\ImpersonateController@destroy')->name('admin.impersonate.destroy');
 
 Route::group(['middleware' => ['auth', 'subscription.active']], function () {
 	Route::get('/dashboard', 'DashboardController@index');

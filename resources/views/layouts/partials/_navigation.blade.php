@@ -18,7 +18,7 @@
 
 		<div class="collapse navbar-collapse" id="app-navbar-collapse">
 			<!-- Left Side Of Navbar -->
-			<ul class="nav navbar-nav">
+	<ul class="nav navbar-nav">
 				&nbsp;
 			</ul>
 
@@ -32,9 +32,21 @@
 					<li><a href="{{ route('login') }}">Login</a></li>
 					<li><a href="{{ route('register') }}">Register</a></li>
 				@else
-                    @admin
-                    <li><a href="#">Admin</a></li>
-                    @endadmin
+					@impersonating
+						<li>
+							<a href="#"
+								onclick="
+									event.preventDefault();
+									document.getElementById('impersonate_destroy').submit();
+                                "
+							>Stop impersonating</a>
+						</li>
+
+						<form id="impersonate_destroy" action="{{ route('admin.impersonate.destroy') }}" method="POST">
+							{{ csrf_field() }}
+							{{ method_field('DELETE') }}
+						</form>
+					@endimpersonating
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
 							{{ Auth::user()->name }} <span class="caret"></span>
