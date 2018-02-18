@@ -3,6 +3,9 @@
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'namespace' => 'Admin'], function () {
+	Route::get('/impersonate', 'ImpersonateController@index');
+});
 
 Route::group(['middleware' => ['auth', 'subscription.active']], function () {
 	Route::get('/dashboard', 'DashboardController@index');
