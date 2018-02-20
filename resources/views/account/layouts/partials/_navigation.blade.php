@@ -4,6 +4,7 @@
     <li class="{{ return_if(on_page('account/password'), 'active') }}"><a href="{{ route('account.password.index') }}">Change password</a></li>
     <li class="{{ return_if(on_page('account/twofactor'), 'active') }}"><a href="{{ route('account.twofactor.index') }}">Two factor authentication</a></li>
     <li class="{{ return_if(on_page('account/deactivate'), 'active') }}"><a href="{{ route('account.deactivate.index') }}">Deactivate account</a></li>
+    <li class="{{ return_if(on_page('account/tokens'), 'active') }}"><a href="{{ route('account.tokens.index') }}">API Tokens</a></li>
 </ul>
 
 @subscribed

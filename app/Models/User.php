@@ -12,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Cashier\Billable;
 use Laravel\Cashier\Subscription;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -21,7 +22,8 @@ class User extends Authenticatable
 	    HasSubscriptions,
 	    SoftDeletes,
 	    HasTwoFactorAuth,
-	    HasRoles;
+	    HasRoles,
+	    HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
