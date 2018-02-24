@@ -131,4 +131,7 @@ Route::group(['prefix' => 'subscription', 'as' => 'subscription.', 'middleware' 
 	Route::post('/', 'Subscription\SubscriptionController@store')->name('store');
 });
 
-
+/**
+ * Webhook
+ */
+Route::post('/webhooks/stripe', 'Webhooks\StripeWebhookController@handleWebhook');
